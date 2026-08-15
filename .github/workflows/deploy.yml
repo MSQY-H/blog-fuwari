@@ -22,13 +22,15 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Setup Deno
+      - name: Setup Deno (v2.x)
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x      # 或者 v2.x，看你需要
+          deno-version: v2.x     # 升级到 v2
 
       - name: Run Astro Check
-        run: deno task check      # 确保 deno.json 中有 "check" 任务
+        env:
+          DENO_NO_LOCK: 1        # 忽略 lockfile 版本冲突
+        run: deno task check
 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -40,13 +42,15 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Setup Deno
+      - name: Setup Deno (v2.x)
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
       - name: Build site
-        run: deno task build       # 你的构建任务
+        env:
+          DENO_NO_LOCK: 1        # 忽略 lockfile 版本冲突
+        run: deno task build
 
       - name: Checkout target repository (msqy-h.github.io)
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -62,7 +66,7 @@ jobs:
           git rm -rf .
           cp -r ../dist/. .
           git config user.name "github-actions[bot]"
-          git config.user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Deploy from ${{ github.repository }}@${{ github.sha }}"
           git push
