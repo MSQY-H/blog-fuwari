@@ -2,10 +2,10 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [ master ]          # 你的分支是 master
+    branches: [ master ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch:              # 手动触发
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,20 +25,17 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x      # 可指定具体版本，如 v2.0
-
-      - name: Install dependencies (caching)
-        run: deno install         # 会根据 deno.json 或 package.json 安装
+          deno-version: v1.x      # 或者 v2.x，看你需要
 
       - name: Run Astro Check
-        run: deno task check      # 前提是你的 deno.json 里有 "check" 脚本
+        run: deno task check      # 确保 deno.json 中有 "check" 任务
 
   build-and-deploy:
     runs-on: ubuntu-latest
     name: Build & Deploy to Pages
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     permissions:
-      contents: write             # 用于推送至目标仓库
+      contents: write
     steps:
       - name: Checkout source repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -48,11 +45,8 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Install dependencies
-        run: deno install
-
       - name: Build site
-        run: deno task build       # 你的构建脚本（如 "astro build"）
+        run: deno task build       # 你的构建任务
 
       - name: Checkout target repository (msqy-h.github.io)
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -68,7 +62,7 @@ jobs:
           git rm -rf .
           cp -r ../dist/. .
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config.user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git commit -m "Deploy from ${{ github.repository }}@${{ github.sha }}"
           git push
