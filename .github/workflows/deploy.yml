@@ -66,7 +66,7 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Build site
-        run: pnpm astro build
+        run: pnpm build
 
       - name: Checkout target repository (msqy-h.github.io)
         uses: actions/checkout@v4
