@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import { getPostUrlBySlug } from '../utils/url-utils';
+import { Icon } from 'astro-icon/components';
+
+// 1. 先判断当前页面是否为首页（仅主页执行后续逻辑）
+const isHomePage = Astro.url.pathname === '/';
+let postUrls = [];
+
+// 2. 仅主页获取文章 URL（非主页跳过，减少无效计算）
+if (isHomePage) {
+  const posts = await getCollection('posts');
+  postUrls = posts
+    .filter(p => !p.data.draft && p.data.tags.length > 0)
+    .map(p => getPostUrlBySlug(p.slug));
+}
+---
+
+{/* 3. 核心条件：仅当是首页时，才渲染整个组件 */}
+{isHomePage && (
+  <>
+    {postUrls.length > 0 ? (
+      <!-- 外层容器 -->
+      <div
+        id="random-post-card"
+        class="card-base flex flex-col w-full rounded-[var(--radius-large)] overflow-hidden relative onload-animation "
+        style="animation-delay: calc(var(--content-delay) + 0ms);"
+        data-post-urls={JSON.stringify(postUrls)}
+      >
+        <!-- 标题区域链接 -->
+        <div class="pl-6 md:pl-9 pr-6 md:pr-2 pt-6 md:pt-7 pb-6 relative w-full">
+          <a
+            href="#"
+            class="random-post-link transition group w-full block font-bold text-2xl text-90
+            hover:text-[var(--primary)] dark:hover:text-[var(--primary)]
+            active:text-[var(--title-active)] dark:active:text-[var(--title-active)]"
+            style="text-align: left;"
+            aria-label="随机文章"
+          >
+            <Icon name="fa6-solid:arrow-right-arrow-left" class="inline text-[var(--primary)] text-[1.25rem] mr-2 -translate-y-[2px]" />
+            随机一篇文章
+            <Icon class="inline text-[2rem] text-[var(--primary)] md:hidden translate-y-0.5 absolute bottom-7" name="material-symbols:chevron-right-rounded" />
+            <Icon class="text-[var(--primary)] text-[2rem] transition hidden md:inline absolute translate-y-0.5 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 bottom-7" name="material-symbols:chevron-right-rounded" />
+          </a>
+        </div>
+
+        <!-- 右上角跳转按钮 -->
+        <a
+          href="#"
+          class="random-post-link !hidden md:!flex btn-regular w-[3.25rem] absolute right-3 top-3 bottom-3 rounded-xl bg-[var(--enter-btn-bg)] hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95"
+          style="--coverWidth: 28%;"
+          aria-label="进入随机文章"
+        >
+          <Icon name="material-symbols:chevron-right-rounded" class="transition text-[var(--primary)] text-4xl mx-auto" />
+        </a>
+      </div>
+      <div class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"></div>
+    ) : (
+      <p class="text-center py-6">没有可用的文章</p>
+    )}
+
+    <!-- 4. 脚本逻辑：仅主页加载（随组件一起被条件包裹） -->
+    <script is:inline>
+      (function() {
+        try {
+          const container = document.querySelector('[data-post-urls]');
+          if (!container) return;
+
+          const postUrls = JSON.parse(container.dataset.postUrls || '[]');
+          if (!Array.isArray(postUrls) || postUrls.length === 0) return;
+
+          function pickRandom() {
+            const randomIndex = Math.floor(Math.random() * postUrls.length);
+            let randomUrl = postUrls[randomIndex];
+            if (randomUrl && typeof randomUrl === 'string') {
+              if (!randomUrl.startsWith('/') && !randomUrl.startsWith('http')) {
+                randomUrl = '/' + randomUrl;
+              }
+            }
+            return randomUrl;
+          }
+
+          const links = document.querySelectorAll('.random-post-link');
+          links.forEach(link => {
+            // 每次 mousedown 重新生成 URL，Ctrl+click 每次打开不同文章
+            link.addEventListener('mousedown', function(e) {
+              this.href = pickRandom();
+            });
+          });
+        } catch (error) {
+          console.error('随机文章功能异常:', error);
+        }
+      })();
+    </script>
+  </>
+)}

@@ -1,0 +1,59 @@
+---
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { siteConfig } from "../config";
+
+interface Props {
+  published: Date;
+  updated?: Date;
+}
+
+const { published, updated } = Astro.props;
+
+const baseDate = updated ?? published;
+const isoDate = baseDate.toISOString();
+const expiryDays = siteConfig.expiry.days;
+const title = i18n(I18nKey.expiryNoticeTitle);
+const messageTemplate = i18n(I18nKey.expiryNoticeMessage);
+---
+
+<div
+  class="card-base p-6 mb-4 hidden"
+  style="background-color: var(--license-block-bg)"
+  data-date={isoDate}
+  data-expiry-days={expiryDays}
+  data-title={title}
+  data-message-template={messageTemplate}
+>
+  <div class="flex items-center mb-4">
+    <div class="w-1 h-5 rounded-md bg-[var(--primary)] mr-3"></div>
+    <h2 class="text-xl font-bold text-black/90 dark:text-white/90" data-expiry-title></h2>
+  </div>
+  <p class="text-black/75 dark:text-white/75" data-expiry-message></p>
+</div>
+
+<script is:inline>
+  (function () {
+    var el = document.currentScript && document.currentScript.previousElementSibling;
+    if (!el) return;
+
+    var date = new Date(el.dataset.date);
+    var now = new Date();
+    var daysDiff = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+    );
+    var expiryDays = Number(el.dataset.expiryDays);
+
+    if (daysDiff > expiryDays) {
+      el.classList.remove("hidden");
+      var titleEl = el.querySelector("[data-expiry-title]");
+      var msgEl = el.querySelector("[data-expiry-message]");
+      if (titleEl) titleEl.textContent = el.dataset.title;
+      if (msgEl)
+        msgEl.textContent = el.dataset.messageTemplate.replace(
+          "{days}",
+          String(daysDiff),
+        );
+    }
+  })();
+</script>

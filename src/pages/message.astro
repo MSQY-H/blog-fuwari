@@ -1,0 +1,30 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import Twikoo from "@components/comment/Twikoo.astro";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+
+const pageTitle = i18n(I18nKey.message);
+const pageDescription = i18n(I18nKey.message);
+---
+
+<MainGridLayout title={pageTitle} description={pageDescription}>
+	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
+		<div class="card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full">
+			<h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
+				{pageTitle}
+			</h1>
+
+			<!-- 评论区 -->
+			<div class="card-base p-6 mb-4">
+				<div class="flex items-center mb-4">
+					<div class="w-1 h-5 rounded-md bg-[var(--primary)] mr-3"></div>
+					<h2 class="text-xl font-bold text-black/90 dark:text-white/90">
+						{i18n(I18nKey.comments)}
+					</h2>
+				</div>
+				<Twikoo path="/message" />
+			</div>
+		</div>
+	</div>
+</MainGridLayout>

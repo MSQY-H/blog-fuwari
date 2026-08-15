@@ -1,0 +1,221 @@
+.floating-toolbar {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.25rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.5rem;
+  z-index: 50;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolbar-btn {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line-divider);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.toolbar-btn:hover {
+  transform: scale(1.05);
+  background: var(--btn-regular-bg-hover);
+}
+
+.toolbar-btn:active {
+  transform: scale(0.92);
+  background: var(--btn-regular-bg-active);
+}
+
+.dark .toolbar-btn {
+  background: var(--card-bg);
+  border-color: var(--line-divider);
+  color: var(--primary);
+}
+.dark .toolbar-btn:hover {
+  background: var(--btn-regular-bg-hover);
+}
+.dark .toolbar-btn:active {
+  background: var(--btn-regular-bg-active);
+}
+
+.back-to-top {
+  position: relative;
+}
+
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.progress-ring-fill {
+  transition: stroke-dashoffset 0.15s ease;
+}
+
+.back-to-top-icon {
+  position: relative;
+  z-index: 1;
+}
+
+.toc-popup {
+  background: var(--card-bg);
+  border-radius: var(--radius-large);
+  padding: 0.75rem;
+  max-width: 280px;
+  min-width: 180px;
+  max-height: 380px;
+  overflow-y: auto;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--line-divider);
+  margin-left: 0.5rem;
+  transform-origin: bottom right;
+  align-self: flex-end;
+}
+
+.dark .toc-popup {
+  background: var(--card-bg);
+  border-color: var(--line-divider);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+}
+
+.toc-popup-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  position: relative;
+}
+
+.toc-popup-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  transition: all 0.12s ease;
+  cursor: pointer;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+}
+
+.toc-popup-item:hover {
+  background: color-mix(in oklab, var(--toc-btn-hover), transparent);
+}
+
+.toc-popup-item:active {
+  background: color-mix(in oklab, var(--toc-btn-active), transparent);
+}
+
+.toc-popup-item.toc-level-0 { padding-left: 0.5rem; }
+.toc-popup-item.toc-level-1 { padding-left: 1.5rem; }
+.toc-popup-item.toc-level-2 { padding-left: 2.5rem; }
+
+.toc-popup-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+  color: color-mix(in oklab, var(--content-meta) 88%, transparent);
+}
+.toc-popup-label.label-primary {
+  color: color-mix(in oklab, var(--content-meta) 78%, var(--primary));
+}
+
+.toc-popup-item.visible .toc-popup-label {
+  color: var(--primary);
+}
+.toc-popup-item.visible {
+  background: color-mix(in oklab, var(--primary) 15%, var(--card-bg));
+}
+.toc-popup-item.visible .toc-badge-index {
+  background: var(--primary);
+  color: var(--card-bg);
+}
+.toc-popup-item.visible .toc-badge-dot,
+.toc-popup-item.visible .toc-badge-dot-sm {
+  background: var(--primary);
+}
+
+.toc-popup-badge {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.toc-badge-index {
+  background: var(--toc-badge-bg);
+  color: var(--btn-content);
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.35rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.toc-badge-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--primary) 26%, var(--line-color));
+}
+.toc-badge-dot-sm {
+  width: 0.3rem;
+  height: 0.3rem;
+  background: color-mix(in oklab, var(--primary) 16%, var(--line-color));
+}
+
+.toc-active-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: color-mix(in oklab, var(--primary) 15%, var(--card-bg));
+  border-radius: 0.5rem;
+  transition: top 0.18s ease, height 0.18s ease, opacity 0.14s ease;
+  z-index: 0;
+}
+
+.toc-popup::-webkit-scrollbar {
+  width: 4px;
+}
+.toc-popup::-webkit-scrollbar-track {
+  background: transparent;
+}
+.toc-popup::-webkit-scrollbar-thumb {
+  background: var(--line-divider);
+  border-radius: 999px;
+}

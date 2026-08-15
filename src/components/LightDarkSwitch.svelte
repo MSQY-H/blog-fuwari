@@ -14,8 +14,36 @@ import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 const seq: LIGHT_DARK_MODE[] = [LIGHT_MODE, DARK_MODE, AUTO_MODE];
 let mode: LIGHT_DARK_MODE = $state(AUTO_MODE);
 
-onMount(() => {
+// + [新增] 同步模式函数：从 localStorage 读取当前主题模式
+function syncMode() {
 	mode = getStoredTheme();
+}
+// - [删除] 原代码：无此函数
+
+onMount(() => {
+	// + [新增] 初始化时同步主题模式
+	syncMode();
+	// - [删除] 原代码：无此行
+
+	// + [新增] 监听 document.documentElement 的 class 变化（外部切换主题时同步）
+	const observer = new MutationObserver(() => {
+		syncMode();
+	});
+	observer.observe(document.documentElement, {
+		attributes: true,
+		attributeFilter: ["class"],
+	});
+	// - [删除] 原代码：无此 observer
+
+	// + [新增] 监听 storage 事件（跨标签页同步）
+	const handleStorage = (e: StorageEvent) => {
+		if (e.key === "theme") {
+			syncMode();
+		}
+	};
+	window.addEventListener("storage", handleStorage);
+	// - [删除] 原代码：无此监听
+
 	const darkModePreference = window.matchMedia("(prefers-color-scheme: dark)");
 	const changeThemeWhenSchemeChanged: Parameters<
 		typeof darkModePreference.addEventListener<"change">
@@ -23,11 +51,16 @@ onMount(() => {
 		applyThemeToDocument(mode);
 	};
 	darkModePreference.addEventListener("change", changeThemeWhenSchemeChanged);
+
 	return () => {
 		darkModePreference.removeEventListener(
 			"change",
 			changeThemeWhenSchemeChanged,
 		);
+		// + [新增] 清理 observer 和 storage 监听
+		observer.disconnect();
+		window.removeEventListener("storage", handleStorage);
+		// - [删除] 原代码：只有 darkModePreference 的清理
 	};
 });
 
@@ -57,7 +90,7 @@ function hidePanel() {
 }
 </script>
 
-<!-- z-50 make the panel higher than other float panels -->
+<!-- 模板部分未修改，保持不变 -->
 <div class="relative z-50" role="menu" tabindex="-1" onmouseleave={hidePanel}>
     <button aria-label="Light/Dark Mode" role="menuitem" class="relative btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="scheme-switch" onclick={toggleScheme} onmouseenter={showPanel}>
         <div class="absolute" class:opacity-0={mode !== LIGHT_MODE}>

@@ -33,6 +33,7 @@
     "@iconify/svelte": "^4.2.0",
     "@swup/astro": "^1.7.0",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/hast": "^3.0.5",
     "astro": "5.13.10",
     "astro-expressive-code": "^0.41.4",
     "astro-icon": "^1.1.5",
@@ -58,19 +59,22 @@
     "stylus": "^0.64.0",
     "svelte": "^5.39.8",
     "tailwindcss": "^3.4.19",
+    "types": "^0.1.1",
     "typescript": "^5.9.3",
-    "unist-util-visit": "^5.0.0"
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@astrojs/ts-plugin": "^1.10.6",
     "@biomejs/biome": "2.2.5",
     "@rollup/plugin-yaml": "^4.1.2",
-    "@types/hast": "^3.0.4",
     "@types/markdown-it": "^14.1.2",
     "@types/mdast": "^4.0.4",
+    "@types/node": "^26.2.0",
     "@types/sanitize-html": "^2.16.0",
     "postcss-import": "^16.1.1",
-    "postcss-nesting": "^13.0.2"
+    "postcss-nesting": "^13.0.2",
+    "tsx": "^4.23.12"
   },
   "packageManager": "pnpm@9.14.4"
 }

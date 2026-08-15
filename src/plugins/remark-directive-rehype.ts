@@ -1,9 +1,9 @@
 import { h } from "hastscript";
 import { visit } from "unist-util-visit";
 
-export function parseDirectiveNode() {
-	return (tree, { _data }) => {
-		visit(tree, (node) => {
+export function parseDirectiveNode(): any {
+	return (tree: any, { _data }: { _data: any }): void => {
+		visit(tree, (node: any) => {
 			if (
 				node.type === "containerDirective" ||
 				node.type === "leafDirective" ||

@@ -36,6 +36,11 @@ export type SiteConfig = {
 	};
 
 	favicon: Favicon[];
+
+  expiry: {
+  	enable: boolean;
+  	days: number;
+  };
 };
 
 export type Favicon = {
@@ -47,7 +52,9 @@ export type Favicon = {
 export enum LinkPreset {
 	Home = 0,
 	Archive = 1,
-	About = 2,
+    Friends = 2,
+	About = 3,
+	Message = 4,
 }
 
 export type NavBarLink = {

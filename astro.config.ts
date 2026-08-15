@@ -8,25 +8,27 @@ import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeComponents from "rehype-components"; /* Render the custom directive content */
+import rehypeComponents from "rehype-components";
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
-import remarkDirective from "remark-directive"; /* Handle directives */
+import remarkDirective from "remark-directive";
 import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
 import { expressiveCodeConfig } from "./src/config.ts";
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
-import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
-import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
-import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
-import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
-import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
-import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
+import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.ts";
+import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.ts";
+import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.ts";
+import { remarkExcerpt } from "./src/plugins/remark-excerpt.ts";
+import { remarkReadingTime } from "./src/plugins/remark-reading-time.ts";
+import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.ts";
+import { rehypeFigcaption } from './src/plugins/rehype-figcaption.ts'
+import { LinkCardComponent } from "./src/plugins/rehype-component-link-card.ts"
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://fuwari.vercel.app/",
+	site: "https://msqy-h.github.io/",
 	base: "/",
 	trailingSlash: "always",
 	integrations: [
@@ -35,9 +37,7 @@ export default defineConfig({
 		}),
 		swup({
 			theme: false,
-			animationClass: "transition-swup-", // see https://swup.js.org/options/#animationselector
-			// the default value `transition-` cause transition delay
-			// when the Tailwind class `transition-all` is used
+			animationClass: "transition-swup-",
 			containers: ["main", "#toc"],
 			smoothScrolling: true,
 			cache: true,
@@ -61,12 +61,12 @@ export default defineConfig({
 				pluginCollapsibleSections(),
 				pluginLineNumbers(),
 				pluginLanguageBadge(),
-				pluginCustomCopyButton()
+				pluginCustomCopyButton(),
 			],
 			defaultProps: {
 				wrap: true,
 				overridesByLang: {
-					'shellsession': {
+					shellsession: {
 						showLineNumbers: false,
 					},
 				},
@@ -76,7 +76,8 @@ export default defineConfig({
 				borderRadius: "0.75rem",
 				borderColor: "none",
 				codeFontSize: "0.875rem",
-				codeFontFamily: "'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+				codeFontFamily:
+					"'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
 				codeLineHeight: "1.5rem",
 				frames: {
 					editorBackground: "var(--codeblock-bg)",
@@ -87,26 +88,26 @@ export default defineConfig({
 					editorActiveTabIndicatorBottomColor: "var(--primary)",
 					editorActiveTabIndicatorTopColor: "none",
 					editorTabBarBorderBottomColor: "var(--codeblock-topbar-bg)",
-					terminalTitlebarBorderBottomColor: "none"
+					terminalTitlebarBorderBottomColor: "none",
 				},
 				textMarkers: {
 					delHue: 0,
 					insHue: 180,
-					markHue: 250
-				}
+					markHue: 250,
+				},
 			},
 			frames: {
 				showCopyToClipboardButton: false,
-			}
+			},
 		}),
-        svelte(),
+		svelte(),
 		sitemap(),
 	],
-  image: {
-    service: {
-      entrypoint: 'astro/assets/services/noop'
-    }
-  },
+	image: {
+		service: {
+			entrypoint: "astro/assets/services/noop",
+		},
+	},
 	markdown: {
 		remarkPlugins: [
 			remarkMath,
@@ -125,6 +126,7 @@ export default defineConfig({
 				{
 					components: {
 						github: GithubCardComponent,
+            "link-card": LinkCardComponent,
 						note: (x, y) => AdmonitionComponent(x, y, "note"),
 						tip: (x, y) => AdmonitionComponent(x, y, "tip"),
 						important: (x, y) => AdmonitionComponent(x, y, "important"),
@@ -156,13 +158,13 @@ export default defineConfig({
 					},
 				},
 			],
+      rehypeFigcaption,
 		],
 	},
 	vite: {
 		build: {
 			rollupOptions: {
 				onwarn(warning, warn) {
-					// temporarily suppress this warning
 					if (
 						warning.message.includes("is dynamically imported by") &&
 						warning.message.includes("but also statically imported by")

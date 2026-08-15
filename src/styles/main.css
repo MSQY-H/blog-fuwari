@@ -1,3 +1,5 @@
+@import url('https://font.kivo.wiki/Blueaka/Blueaka.css');
+@import url('https://font.kivo.wiki/Blueaka_Bold/Blueaka_Bold.css');
 @tailwind components;
 
 @layer components {

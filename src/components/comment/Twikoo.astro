@@ -1,0 +1,48 @@
+---
+const config = {
+  el: "#comment",
+  path: Astro.props.path,
+};
+---
+<div id="comment">
+  <div class="text-center text-gray-500 dark:text-gray-400 p-8">
+    <p>评论区加载中...</p>
+    <p class="text-sm mt-2">如果长时间无法显示，请尝试刷新页面。</p>
+  </div>
+</div>
+<script is:inline define:vars={{ config }}>
+  function initTwikoo() {
+    const commentContainer = document.getElementById('comment');
+    if (!commentContainer) return;
+
+    // 清理旧的 Twikoo 实例和脚本
+    if (window.twikoo) {
+      window.twikoo = undefined;
+    }
+    const oldScript = document.getElementById('twikoo-script');
+    if (oldScript) {
+      oldScript.remove();
+    }
+
+    // 创建并注入新的 Twikoo 脚本
+    const script = document.createElement('script');
+    script.id = 'twikoo-script';
+    script.src = '/twikoo/twikoo.min.js'; // 确保路径正确
+    script.defer = true;
+
+    // 脚本加载后初始化 Twikoo
+    script.onload = () => {
+      if (window.twikoo) {
+        window.twikoo.init({
+          ...config,
+          envId: "https://msqy-twikoo-tech.hf.space", // ！！！请替换为您的真实 envId
+          lang: 'zh-CN',
+        });
+      }
+    };
+    document.head.appendChild(script);
+  }
+
+  // 监听 Astro 的页面加载事件来初始化评论
+  document.addEventListener('astro:page-load', initTwikoo);
+</script>

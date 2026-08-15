@@ -1,16 +1,19 @@
-/// <reference types="mdast" />
 import { h } from "hastscript";
 
 /**
  * Creates an admonition component.
  *
- * @param {Object} properties - The properties of the component.
- * @param {string} [properties.title] - An optional title.
- * @param {('tip'|'note'|'important'|'caution'|'warning')} type - The admonition type.
- * @param {import('mdast').RootContent[]} children - The children elements of the component.
- * @returns {import('mdast').Parent} The created admonition component.
+ * @param properties - The properties of the component.
+ * @param properties.title - An optional title.
+ * @param type - The admonition type.
+ * @param children - The children elements of the component.
+ * @returns The created admonition component.
  */
-export function AdmonitionComponent(properties, children, type) {
+export function AdmonitionComponent(
+	properties: Record<string, any> | undefined,
+	children: any[],
+	type: "tip" | "note" | "important" | "caution" | "warning",
+): any {
 	if (!Array.isArray(children) || children.length === 0)
 		return h(
 			"div",
@@ -18,7 +21,7 @@ export function AdmonitionComponent(properties, children, type) {
 			'Invalid admonition directive. (Admonition directives must be of block type ":::note{name="name"} <content> :::")',
 		);
 
-	let label = null;
+	let label: any = null;
 	if (properties?.["has-directive-label"]) {
 		label = children[0]; // The first child is the label
 		// biome-ignore lint/style/noParameterAssign: <check later>
