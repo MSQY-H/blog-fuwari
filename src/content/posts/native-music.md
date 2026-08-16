@@ -43,7 +43,7 @@ draft: false
 
 Salt Player 是很好用的播放器，颜值高，功能比较多，而且在最近的版本支持了 USB 独占，非常推荐。
 
-{% link 'Salt Player' 'Official 渠道（境内用户推荐）：OPPO…' 'https://moriafly.com/program/salt-player.html' %}
+::link-card{url="https://moriafly.com/program/salt-player.html" title="Salt Player" description="Official 渠道（境内用户推荐）：OPPO…"}
 
 ### Poweramp
 
@@ -51,14 +51,15 @@ Poweramp 很有名，挺专业的，界面比较硬核，音质也挺好，自�
 
 ![Poweramp 的界面](/images/native-music/poweramp.webp)
 
-{% link 'Poweramp: Android…' 'Poweramp is a powerful …' 'http://powerampapp.com/' %}
+::link-card{url="http://powerampapp.com/" title="Poweramp: Android…" description="Poweramp is a powerful …"}
+
 ### PixelPlayer
 
 Material 3 风格，好看，功能比较多。
 
 ![PixelPlayer 的界面](/images/native-music/pixelplayer.webp)
 
-{% github 'PixelPlayerHQ/PixelPlayer' %}
+::github{repo="PixelPlayerHQ/PixelPlayer"}
 
 ### AIMP
 
@@ -66,7 +67,7 @@ Material 3 风格，好看，功能比较多。
 
 ![AIMP 的界面](/images/native-music/aimp.webp)
 
-{% link 'AIMP' 'Cumulative updates for …' 'http://aimp.ru/' %}
+::link-card{url="http://aimp.ru/" title="AIMP" description="Cumulative updates for …"}
 
 ### Flamingo
 
@@ -74,7 +75,7 @@ Material 3 风格，好看，功能比较多。
 
 ![Flamingo 的界面](/images/native-music/flamingo.webp)
 
-{% link 'Bilibili: Flamingo 更新内容…' 'Flamingo 是一款使…' 'https://www.bilibili.com/video/BV1aSgWzYEdo' %}
+::link-card{url="https://www.bilibili.com/video/BV1aSgWzYEdo" title="Bilibili: Flamingo 更新内容…" description="Flamingo 是一款使…"}
 
 ## 结尾
 
