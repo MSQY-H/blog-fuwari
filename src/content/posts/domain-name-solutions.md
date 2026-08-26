@@ -1,6 +1,7 @@
 ---
 title: 零预算网站域名解决方案
 published: 2026-08-08 21:03:00
+updated: 2026-08-26 15:58:00
 description: 没有预算买域名？GitHub Pages 的域名 + Cloudflare Pages 作镜像站，这个方案也不错。
 tags: ['Hexo', 'Pages', 'Bing']
 category: '网站'
@@ -256,6 +257,12 @@ url: 你的主网站
 改为你的主网站即可。Hexo 在构建时会自动加入上述标签。
 
 至于 \<yourusername\>.github.io 的收录情况，我会在这里更新。
+
+#### 2026.8.26 更新
+
+Bing 终于收录了我的网站并成功显示了。🎉🎉🎉看来这个方法是有效的。
+
+![收录成功](/images/domain-name-solutions/success.webp)
 
 ### 结尾
 
