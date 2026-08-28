@@ -26,6 +26,8 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 import { rehypeFigcaption } from './src/plugins/rehype-figcaption.ts'
 import { LinkCardComponent } from "./src/plugins/rehype-component-link-card.ts"
 
+import indexnow from "astro-indexnow";
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://msqy-h.github.io/",
