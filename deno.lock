@@ -28,6 +28,7 @@
     "npm:@types/sanitize-html@^2.16.0": "2.16.1",
     "npm:astro-expressive-code@~0.41.4": "0.41.7_astro@5.13.10__@types+node@26.2.0_@types+node@26.2.0",
     "npm:astro-icon@^1.1.5": "1.1.5",
+    "npm:astro-indexnow@^2.3.10": "2.3.10_astro@5.13.10__@types+node@26.2.0",
     "npm:astro@5.13.10": "5.13.10_@types+node@26.2.0",
     "npm:hastscript@^9.0.1": "9.0.1",
     "npm:katex@~0.16.27": "0.16.47",
@@ -2592,6 +2593,12 @@
         "@iconify/tools",
         "@iconify/types",
         "@iconify/utils"
+      ]
+    },
+    "astro-indexnow@2.3.10_astro@5.13.10__@types+node@26.2.0": {
+      "integrity": "sha512-O0QnP5lUQ4mbMOBPxXf1pNXVhu80R9Pk3rU5Jzbc7pFB+lSQH7UHQ6TSZtRsggVkgSD7W0g38OLxfep7Wb6Qqw==",
+      "dependencies": [
+        "astro"
       ]
     },
     "astro@5.13.10_@types+node@26.2.0": {
@@ -7888,6 +7895,7 @@
         "npm:@types/sanitize-html@^2.16.0",
         "npm:astro-expressive-code@~0.41.4",
         "npm:astro-icon@^1.1.5",
+        "npm:astro-indexnow@^2.3.10",
         "npm:astro@5.13.10",
         "npm:hastscript@^9.0.1",
         "npm:katex@~0.16.27",

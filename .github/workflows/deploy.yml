@@ -65,7 +65,13 @@ jobs:
       - name: Install dependencies (allow missing lockfile)
         run: pnpm install --no-frozen-lockfile
 
+      - name: Create IndexNow key file
+        run: echo "${{ secrets.INDEXNOW_KEY }}" > public/${{ secrets.INDEXNOW_KEY }}.txt
+
       - name: Build site
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_ENDPOINT: ${{ secrets.INDEXNOW_ENDPOINT }}   # 👈 新增
         run: pnpm build
 
       - name: Checkout target repository (msqy-h.github.io)

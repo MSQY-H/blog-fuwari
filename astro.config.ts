@@ -102,6 +102,7 @@ export default defineConfig({
 		}),
 		svelte(),
 		sitemap(),
+		...(process.env.INDEXNOW_KEY ? [indexnow({ key: process.env.INDEXNOW_KEY })] : []),
 	],
 	image: {
 		service: {

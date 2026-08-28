@@ -51,6 +51,11 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Friends,
 		LinkPreset.About,
 		LinkPreset.Message,
+		{
+		    name: "Homepage",
+		    url: "https://msqy-h.github.io/homepage/",
+		    external: true,
+		},
 	],
 };
 
