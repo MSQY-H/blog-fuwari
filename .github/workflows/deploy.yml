@@ -15,6 +15,7 @@ permissions:
   contents: read
 
 jobs:
+  # ----- Check Job（也注入环境变量，避免 astro check 因缺变量报错）-----
   check:
     strategy:
       matrix:
@@ -39,9 +40,13 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Run Astro Check
-        continue-on-error: true
+        continue-on-error: true   # 允许失败，但变量已注入，日志干净
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_ENDPOINT: ${{ secrets.INDEXNOW_ENDPOINT }}
         run: pnpm astro check
 
+  # ----- Build & Deploy Job -----
   build-and-deploy:
     runs-on: ubuntu-latest
     name: Build & Deploy to msqy-h.github.io
@@ -65,15 +70,35 @@ jobs:
       - name: Install dependencies (allow missing lockfile)
         run: pnpm install --no-frozen-lockfile
 
+      # ----- 生成 IndexNow 验证文件（文件名=内容=密钥）-----
       - name: Create IndexNow key file
         run: echo "${{ secrets.INDEXNOW_KEY }}" > public/${{ secrets.INDEXNOW_KEY }}.txt
 
+      # ----- 调试：检查环境变量是否存在（不打印值）-----
+      - name: Debug Secrets (Check existence only)
+        run: |
+          if [ -z "$INDEXNOW_KEY" ]; then
+            echo "❌ INDEXNOW_KEY is EMPTY"
+          else
+            echo "✅ INDEXNOW_KEY is set (length: ${#INDEXNOW_KEY})"
+          fi
+          if [ -z "$INDEXNOW_ENDPOINT" ]; then
+            echo "❌ INDEXNOW_ENDPOINT is EMPTY"
+          else
+            echo "✅ INDEXNOW_ENDPOINT is set (length: ${#INDEXNOW_ENDPOINT})"
+          fi
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          INDEXNOW_ENDPOINT: ${{ secrets.INDEXNOW_ENDPOINT }}
+
+      # ----- 构建（同时注入两个环境变量）-----
       - name: Build site
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          INDEXNOW_ENDPOINT: ${{ secrets.INDEXNOW_ENDPOINT }}   # 👈 新增
+          INDEXNOW_ENDPOINT: ${{ secrets.INDEXNOW_ENDPOINT }}
         run: pnpm build
 
+      # ----- 部署到目标仓库 -----
       - name: Checkout target repository (msqy-h.github.io)
         uses: actions/checkout@v4
         with:
