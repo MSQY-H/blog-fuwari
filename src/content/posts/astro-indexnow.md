@@ -1,6 +1,7 @@
 ---
 title: Astro 博客配置 IndexNow
 published: 2026-08-28 18:00:00
+updated: 2026-09-11 20:40:00
 description: 介绍了如何使用 astro-indexnow 插件为 Astro 博客设置自动向 Bing IndexNow 提交 url
 tags: ['Bing', 'Astro']
 category: 博客
@@ -95,7 +96,7 @@ export default defineConfig({
 
 ```
 INDEXNOW_KEY=你的API密钥
-INDEXNOW_ENDPOINT=https://www.bing.com/indexnow
+INDEXNOW_ENDPOINT=https://api.indexnow.org/indexnow
 ```
 
 如果不想公开密钥，那么千万不要把这个 .env 文件上传。
@@ -111,7 +112,7 @@ INDEXNOW_ENDPOINT=https://www.bing.com/indexnow
 
 ```
 INDEXNOW_KEY=你的API密钥
-INDEXNOW_ENDPOINT=https://www.bing.com/indexnow
+INDEXNOW_ENDPOINT=https://api.indexnow.org/indexnow
 ```
 
 #### GitHub Pages
@@ -143,7 +144,7 @@ INDEXNOW_ENDPOINT=https://www.bing.com/indexnow
 
 ```
 INDEXNOW_KEY=你的API密钥
-INDEXNOW_ENDPOINT=https://www.bing.com/indexnow
+INDEXNOW_ENDPOINT=https://api.indexnow.org/indexnow
 ```
 
 最后执行部署操作。
@@ -161,6 +162,10 @@ INDEXNOW_ENDPOINT=https://www.bing.com/indexnow
 接着再前往 Bing Webmaster Tools 检查有没有刚刚提交的 url。
 
 恭喜你，成功了！
+
+## 2026.9.11 更新
+
+原有建议的 `INDEXNOW_ENDPOINT` 值似乎无法使用，已将该变量建议值改为可以使用的 `https://api.indexnow.org/indexnow`。
 
 ## 结尾
 
