@@ -22,7 +22,7 @@ lang: zh-CN
 
 不过，Mozilla 其实也提供了 Firefox 安卓版的下载。这个链接是官方归档，不用担心有问题。:spoiler[除非有黑客攻击]
 
-::link-card{url="[https://archive.mozilla.org/pub/fenix/releases/"](https://archive.mozilla.org/pub/fenix/releases/%22) title="Firefox 安卓版下载链接" description="[https://archive.mozilla.org/pub/fenix/releases/](https://archive.mozilla.org/pub/fenix/releases/%22%7D)"}
+::link-card{url="https://archive.mozilla.org/pub/fenix/releases/" title="Firefox 安卓版下载链接" description="https://archive.mozilla.org/pub/fenix/releases/"}
 
 ![官方归档页面](/images/firefox-android-download/2.webp)
 
@@ -32,8 +32,6 @@ lang: zh-CN
 
 如果这个下载链接失效了，也可以看看 Mozilla Support。里面一般会写出除 Google Play 的下载方式。
 
-::link-card{url="[https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox](https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox%22)" title="Mozilla 支持文档" description="在手机或平板上安装 Firefox"}
-
-::link-card{url="http://aimp.ru/" title="AIMP" description="Cumulative updates for …"}
+::link-card{url="https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox" title="Mozilla 支持文档" description="在手机或平板上安装 Firefox"}
 
 这篇文章用作备忘，也希望能够帮到有需要的人。
