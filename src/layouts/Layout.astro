@@ -151,6 +151,19 @@ const bannerOffset =
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
 	</head>
+  
+<script is:inline type="module">
+  import { BAClickFX } from 'https://cdn.jsdelivr.net/npm/ba-click-fx@1.3.3/dist/ba-click-fx.js';
+
+  // 防止 Swup 页面切换时重复创建
+  if (!window.__baClickFxInstance) {
+    window.__baClickFxInstance = new BAClickFX({
+      scale: 1,
+      maxDpr: 3,
+    });
+  }
+</script>
+  
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
 		  data-overlayscrollbars-initialize
 	>

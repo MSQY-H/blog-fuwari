@@ -1,0 +1,135 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+backend:
+  name: github
+  repo: MSQY-H/blog-fuwari
+  branch: master
+
+# 全局图片存储：上传到 /public/images/<文章文件名>/
+media_folder: '/public/images/{{slug}}'
+public_folder: '/images/{{slug}}'
+
+# 省略空的可选字段，避免 Astro 构建报错
+output:
+  omit_empty_optional_fields: true
+
+collections:
+  # ─────────────────────────────────────────────
+  # 博客文章：src/content/posts/*.md
+  # ─────────────────────────────────────────────
+  - name: posts
+    label: 博客文章
+    label_singular: 文章
+    folder: src/content/posts
+    create: true
+    extension: md
+    format: yaml-frontmatter
+
+    # 新建时手动输入文件名
+    slug:
+      editable: true
+      hint: '输入文件名，不要带 .md 后缀，例如：minecraft-rtx'
+      pattern: ['^[a-zA-Z0-9_-]+$', '只能使用字母、数字、下划线和连字符']
+
+    fields:
+      - label: 标题
+        name: title
+        widget: string
+        required: true
+
+      - label: 发布日期
+        name: published
+        widget: datetime
+        required: true
+        default: '{{now}}'
+        type: datetime-local
+        format: 'YYYY-MM-DD HH:mm:ss'
+        input_timezone: local
+
+      - label: 更新时间
+        name: updated
+        widget: datetime
+        required: false
+        type: datetime-local
+        format: 'YYYY-MM-DD HH:mm:ss'
+        input_timezone: local
+
+      - label: 描述
+        name: description
+        widget: string
+        required: false
+
+      - label: 标签
+        name: tags
+        widget: list
+        required: false
+        field:
+          name: tag
+          label: 标签
+          widget: string
+
+      - label: 分类
+        name: category
+        widget: string
+        required: false
+
+      - label: 封面图片
+        name: image
+        widget: image
+        required: false
+
+      - label: 草稿
+        name: draft
+        widget: boolean
+        required: false
+        default: false
+
+      - label: 语言
+        name: lang
+        widget: string
+        required: false
+        default: 'zh-CN'
+
+      - label: 正文
+        name: body
+        widget: markdown
+        required: true
+
+  # ─────────────────────────────────────────────
+  # 友链数据：src/content/data/friends.json
+  # ─────────────────────────────────────────────
+  - name: friends
+    label: 友链
+    label_singular: 友链
+    file: /src/content/data/friends.json
+    identifier_field: title
+    fields:
+      - { label: 站点标题, name: title, widget: string, required: true }
+      - { label: 头像 URL, name: imgurl, widget: string, required: true }
+      - { label: 描述, name: desc, widget: string, required: false }
+      - { label: 站点 URL, name: siteurl, widget: string, required: true }
+
+  # ─────────────────────────────────────────────
+  # 特殊页面：src/content/spec/*.md（纯正文，无 frontmatter）
+  # ─────────────────────────────────────────────
+  - name: spec
+    label: 特殊页面
+    files:
+      # 关于页：src/content/spec/about.md
+      # 图片存到 src/content/spec/about/，正文引用 ./about/xxx.webp
+      - name: about
+        label: 关于页
+        file: /src/content/spec/about.md
+        format: raw
+        media_folder: 'about'
+        public_folder: './about'
+        fields:
+          - { label: 正文, name: body, widget: markdown, required: true }
+
+      # 友链页面：src/content/spec/friends.md
+      - name: friends-page
+        label: 友链页面
+        file: /src/content/spec/friends.md
+        format: raw
+        fields:
+          - { label: 正文, name: body, widget: markdown, required: true }

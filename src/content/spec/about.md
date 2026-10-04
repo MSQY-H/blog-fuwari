@@ -194,5 +194,20 @@ Astro 真是太快了！
 
 ---
 
+博客的几条线路：
+
+<div class="tech-grid">
+  <div class="tech-card act-card" onclick="window.open('https://msqy-h.github.io', '_blank');">
+    <span class="tech-label">主站</span>
+    <span class="tech-value">https://msqy-h.github.io</span>
+  </div>
+  <div class="tech-card act-card" onclick="window.open('https://www.msqy.cc.cd', '_blank');">
+    <span class="tech-label">镜像</span>
+    <span class="tech-value">https://www.msqy.cc.cd</span>
+  </div>
+</div>
+
+---
+
 > - 本页面参考了 [Pinpe](https://github.com/Pinpe) 大佬的排版和样式
 > - 如无特别标注，本页面图片均为本人拍摄或制作
