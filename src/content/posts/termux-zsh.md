@@ -2,10 +2,15 @@
 title: Termux 配置 zsh 以及简单美化记录
 published: 2026-07-25 15:58:00
 description: Termux 配置 zsh 和 美化的记录，让 Termux 更好看
-tags: ['Termux', '终端']
-categories: '软件'
+tags:
+  - Termux
+  - 终端
+category: 终端
 draft: false
+lang: zh-CN
+categories: 软件
 ---
+
 ## 写在前面
 
 众所周知，Termux 是安卓手机上最好用的终端模拟器之一。我这个博客在写代码时就是用 Termux 预览的。~~也就只有我这种人会用手机写代码了（笑）~~
