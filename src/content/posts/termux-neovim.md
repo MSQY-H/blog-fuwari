@@ -2,10 +2,14 @@
 title: Termux Neovim + LazyVim 配置实记
 published: 2026-07-26 15:10:00
 description: 在 Termux 环境下，安装 Neovim 并使用 Lazyvim 进行配置
-tags: ['Termux', '终端']
-category: '软件'
-draft: true
+tags:
+  - Termux
+  - 终端
+category: 终端
+draft: false
+lang: zh-CN
 ---
+
 ## 写在前面
 
 之前在配置 zsh 时，我就说过要写一篇配置 Neovim 的文章。今天，我就在这里说一下怎么在 Termux 中配置 Neovim。
