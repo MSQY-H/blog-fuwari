@@ -32,6 +32,8 @@ lang: zh-CN
 
 如果这个下载链接失效了，也可以看看 Mozilla Support。里面一般会写出除 Google Play 的下载方式。
 
-::link-card{url="[https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox"](https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox%22) title="Mozilla 支持文档" description="在手机或平板上安装 Firefox"}
+::link-card{url="[https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox](https://support.mozilla.org/zh-CN/kb/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%88%96%E5%B9%B3%E6%9D%BF%E4%B8%8A%E5%AE%89%E8%A3%85Firefox%22)" title="Mozilla 支持文档" description="在手机或平板上安装 Firefox"}
+
+::link-card{url="http://aimp.ru/" title="AIMP" description="Cumulative updates for …"}
 
 这篇文章用作备忘，也希望能够帮到有需要的人。
