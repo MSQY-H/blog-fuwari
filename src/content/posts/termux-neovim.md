@@ -246,7 +246,7 @@ local dashboard_custom_header17 = {
 
 但是，如果向左滑动 Termux 的小键盘，小键盘就会变成输入框，现在就可以输入中文了，按回车即可将中文从输入框输入到命令行。
 
-![向左滑动](/image/termux-neovim/slide.webp)
+![向左滑动](/images/termux-neovim/slide.webp)
 
 另外，在左侧屏幕边缘向右滑动，可以滑出 Termux 侧边栏，可以添加新 session。
 
