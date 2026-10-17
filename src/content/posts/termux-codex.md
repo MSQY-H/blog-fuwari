@@ -21,8 +21,7 @@ lang: zh-CN
 
 如果没有安装 `Bun`，先安装。
 
-```plain
-bash
+```bash
 pkg update
 pkg upgrade -y
 pkg i bun
@@ -30,8 +29,7 @@ pkg i bun
 
 然后安装 `DioNanos/codex-termux` 项目提供的 npm 包。
 
-```plain
-bash
+```bash
 bun install -g @mmmbuto/codex-cli-termux@latest --allow-scripts=@mmmbuto/codex-cli-termux
 ```
 
@@ -41,28 +39,25 @@ bun install -g @mmmbuto/codex-cli-termux@latest --allow-scripts=@mmmbuto/codex-c
 
 > On Termux, also install ripgrep (the Android package resolves rg from PATH and does not bundle it):
 
-```plain
-bash
+```bash
 pkg install ripgrep
 ```
 
 安装完成后，`bun` 提示需要添加环境变量。（由于环境不同，你的提示可能与这个不同）
 
-```plain
-bash
+```bash
 export PATH="/data/data/com.termux/files/home/.bun/bin:$PATH"
 ```
 
 添加后即可使用。输入 `codex --version` 验证。输出类似
 
-```plain
+```
 codex-cli 0.162.1
 ```
 
 即表明安装成功。需要注意的是，我们要将这一环境变量添加至 `.bashrc` 或 `.zshrc`，否则每次启动 Termux 都需要重新导入一遍环境变量。
 
-```plain
-bash
+```bash
 echo 'export PATH="/data/data/com.termux/files/home/.bun/bin:$PATH"' >> ~/.bashrc # 或 ~/.zshrc，注意 'export ...' 一句应替换为你的实际提示
 ```
 
@@ -72,8 +67,7 @@ echo 'export PATH="/data/data/com.termux/files/home/.bun/bin:$PATH"' >> ~/.bashr
 
 新建或编辑 `~/.codex/models.json`。
 
-```plain
-json title="~/.codex/models.json"
+```json title="~/.codex/models.json"
 {
   "models": [
     {
@@ -109,8 +103,7 @@ json title="~/.codex/models.json"
 
 新建或编辑 `~/.codex/config.toml`。
 
-```plain
-toml title="~/.codex/config.toml"
+```toml title="~/.codex/config.toml"
 model_provider = "ZAI"
 model = "glm-4.7-flash"
 model_reasoning_effort = "max"
