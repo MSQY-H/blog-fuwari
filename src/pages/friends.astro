@@ -1,29 +1,36 @@
 ---
-import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
+import { getCollection, getEntry, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import Markdown from "../components/misc/Markdown.astro";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { type FriendItem } from "../content/config";
-import { Icon } from "astro-icon/components";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
 
 const friendsData = await getEntry("data", "friends");
 if (!friendsData) {
 	throw new Error("Friends data not found: src/content/data/friends.json");
 }
-const items: FriendItem[] = friendsData.data;
+const items = friendsData.data as FriendItem[];
 const friendUrls = items.map(item => item.siteurl);
 
-const friendsPost = await getEntry("spec", "friends");
-if (!friendsPost) {
-	throw new Error("Friends page content not found in spec collection");
-}
-const { Content } = await render(friendsPost);
+// 读取 src/content/spec/friends/*.md，按 frontmatter.order 排序
+const friendsPages = (await getCollection("spec"))
+	.filter(page => page.id.startsWith("friends/"))
+	.sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
+
+const renderedFriendsPages = await Promise.all(
+	friendsPages.map(async page => ({
+		page,
+		Content: (await render(page)).Content,
+	})),
+);
 ---
 
 <MainGridLayout title={i18n(I18nKey.friends)} description={i18n(I18nKey.friends)}>
-	<div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-		<div class="card-base z-10 px-9 py-6 relative w-full">
+	<div class="flex flex-col gap-4">
+		<!-- 友链列表卡片 -->
+		<div class="card-base px-6 sm:px-9 py-6 sm:py-8">
 			<div class="flex items-center justify-between mb-6">
 				<h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-100">
 					{i18n(I18nKey.friends)}
@@ -41,44 +48,52 @@ const { Content } = await render(friendsPost);
 					<span class="text-sm font-medium">随机友链</span>
 				</button>
 			</div>
-			<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8 my-4" id="friends-list">
+
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="friends-list">
 				{items.map((item) => (
-					<div class="friend-card flex flex-nowrap items-stretch h-28 gap-4 rounded-[var(--radius-large)]">
-						<div class="w-28 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-zinc-200 dark:bg-zinc-900">
-							<img src={item.imgurl} alt="站点头像" class="w-full h-full object-cover" />
+					<a
+						href={item.siteurl}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="friend-card group flex items-center gap-3 p-3 rounded-[var(--radius-large)] border border-black/10 dark:border-white/15 hover:border-[var(--primary)] active:scale-[0.98] transition-all duration-300"
+						aria-label={`访问 ${item.title}`}
+					>
+						<div class="w-11 h-11 flex-shrink-0 rounded-full overflow-hidden border border-black/10 dark:border-white/15 bg-zinc-200 dark:bg-zinc-900">
+							<img
+								src={item.imgurl}
+								alt={item.title}
+								class="w-full h-full object-cover"
+								loading="lazy"
+							/>
 						</div>
-						<div class="grow w-full">
-							<div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 mb-1">{item.title}</div>
-							<div class="text-50 text-sm font-medium">{item.desc}</div>
+						<div class="min-w-0 flex-1 flex flex-col justify-center">
+							<div class="font-bold text-sm text-neutral-900 dark:text-neutral-100 truncate group-hover:text-[var(--primary)] transition-colors">
+								{item.title}
+							</div>
+							<div class="text-50 text-xs truncate mt-0.5">{item.desc}</div>
 						</div>
-						<a href={item.siteurl} target="_blank" rel="noopener noreferrer" class="flex btn-regular w-[3.25rem] rounded-lg bg-[var(--enter-btn-bg)] hover:bg-[var(--enter-btn-bg-hover)] active:bg-[var(--enter-btn-bg-active)] active:scale-95">
-							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="transition text-[var(--primary)] text-4xl mx-auto iconify iconify--material-symbols" width="1em" height="1em" viewBox="0 0 24 24">
-								<path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"></path>
-							</svg>
-						</a>
-					</div>
+					</a>
 				))}
 			</div>
-			<Markdown class="mt-2">
-				<Content />
-			</Markdown>
 		</div>
+
+		<!-- spec/friends/*.md，每个文件一张卡片，标题取自 frontmatter.title -->
+		{renderedFriendsPages.map(({ page, Content }) => (
+			<div class="card-base px-6 sm:px-9 py-6 sm:py-8">
+				<h2 class="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+					{page.data.title ?? page.id}
+				</h2>
+				<div class="friends-md-body">
+					<Markdown>
+						<Content />
+					</Markdown>
+				</div>
+			</div>
+		))}
 	</div>
 
 	<script>
-		window.addEventListener('DOMContentLoaded', () => {
-			// 随机打乱友链列表
-			const container = document.getElementById("friends-list");
-			if (container) {
-				const cards = Array.from(container.children);
-				for (let i = cards.length - 1; i > 0; i--) {
-					const j = Math.floor(Math.random() * (i + 1));
-					[cards[i], cards[j]] = [cards[j], cards[i]];
-				}
-				cards.forEach(card => container.appendChild(card));
-			}
-
-			// 随机友链按钮
+		window.addEventListener("DOMContentLoaded", () => {
 			const randomFriendLink = document.getElementById("random-friend-link");
 			if (randomFriendLink) {
 				randomFriendLink.addEventListener("click", (e) => {
@@ -91,4 +106,13 @@ const { Content } = await render(friendsPost);
 			}
 		});
 	</script>
+
+	<style is:global>
+		.friends-md-body > :first-child > :first-child {
+			margin-top: 0 !important;
+		}
+		.friends-md-body > :first-child > :last-child {
+			margin-bottom: 0 !important;
+		}
+	</style>
 </MainGridLayout>
